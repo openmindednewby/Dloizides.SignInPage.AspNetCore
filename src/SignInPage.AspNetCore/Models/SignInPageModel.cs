@@ -10,8 +10,8 @@ public sealed record SignInPageModel(SignInPageShell Shell, SignInConfig Config,
     public string ForgotPasswordHref { get; init; } = "/forgot-password";
 }
 
-/// <summary>The page title, brand, optional logo and optional font stylesheet every sign-in page shares.</summary>
-public sealed record SignInPageShell(string Title, SignInBrand Brand)
+/// <summary>Page title, optional brand (null or blank Name: logo only), optional logo and font CSS.</summary>
+public sealed record SignInPageShell(string Title, SignInBrand? Brand)
 {
     public SignInLogo? Logo { get; init; }
 

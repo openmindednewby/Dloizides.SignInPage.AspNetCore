@@ -17,18 +17,10 @@ internal static class PageLayout
         </body></html>
         """;
 
-    public static string Header(SignInPageShell shell, SignInMotion? motion)
-    {
-        var brand = shell.Brand;
-        var accent = string.IsNullOrWhiteSpace(brand.Accent) ? string.Empty : $" <b>{Markup.Html(brand.Accent)}</b>";
-        var tagline = string.IsNullOrWhiteSpace(brand.Tagline) ? string.Empty : $"<span>{Markup.Html(brand.Tagline)}</span>";
-        return $"""
-            {LogoMarkup.Slot(shell.Logo, motion)}
-                <div class="brand">
-                  <span class="brand-name">{Markup.Html(brand.Name)}{accent}</span>{tagline}
-                </div>
+    public static string Header(SignInPageShell shell, SignInMotion? motion) =>
+        $"""
+            {LogoMarkup.Slot(shell.Logo, motion)}{Brand(shell.Brand)}
             """;
-    }
 
     public static string Error(string? error) =>
         error is null ? string.Empty : $"""<div class="err" role="alert">{Markup.Html(error)}</div>""";
@@ -37,4 +29,19 @@ internal static class PageLayout
 
     public static string Link(string cssClass, string href, string? text) =>
         text is null ? string.Empty : $"""<a class="{cssClass}" href="{Markup.Html(CssValue.Link(nameof(href), href))}">{Markup.Html(text)}</a>""";
+
+    private static string Brand(SignInBrand? brand)
+    {
+        if (string.IsNullOrWhiteSpace(brand?.Name))
+            return string.Empty;
+
+        var accent = string.IsNullOrWhiteSpace(brand.Accent) ? string.Empty : $" <b>{Markup.Html(brand.Accent)}</b>";
+        var tagline = string.IsNullOrWhiteSpace(brand.Tagline) ? string.Empty : $"<span>{Markup.Html(brand.Tagline)}</span>";
+        return $"""
+
+                <div class="brand">
+                  <span class="brand-name">{Markup.Html(brand.Name)}{accent}</span>{tagline}
+                </div>
+            """;
+    }
 }

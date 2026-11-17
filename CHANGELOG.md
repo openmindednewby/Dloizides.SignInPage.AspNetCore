@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1
+- `SignInPageShell.Brand` is optional: `null` or a blank `Name` renders a logo-only page with no `.brand` element, and reset pages drop the ` · <brand>` title suffix. Existing callers are unchanged.
+- Known gap (tests/js/motion-presets.test.mjs, todo): 20 of the 21 schema motion names are not raster presets in the vendored logo-kit 0.6.0 runtime (only micro `pulse` resolves), so configured motion is skipped.
+
 ## 3.0.0
 - Security (breaking): `IPasswordResetHost.FindUserAsync` returns `PasswordResetUser(UserId, Email)` and `SendResetLinkAsync` receives that user, so only the stored address is mailed, never the submitted text. Reset links are built from the required `PasswordResetPaths.PublicOrigin`, never the Host header.
 - Security: forgot-password requests go to a bounded `PasswordResetQueue` drained by `PasswordResetWorker`; known and unknown emails return on the same path. Hosts must rate-limit: `app.MapSignInPasswordReset().RequireRateLimiting("policy")`.

@@ -61,7 +61,7 @@ internal static class PasswordResetPages
     private static string Card(SignInPageShell shell, SignInConfig config, string title, string body)
     {
         var header = $"""{PageLayout.Header(shell, config.Motion)}<h1 class="title">{Markup.Html(title)}</h1>""";
-        return PageLayout.Document(shell with { Title = $"{title} · {shell.Brand.Name}" }, config.Theme, body.Replace("<!--header-->", header, StringComparison.Ordinal));
+        return PageLayout.Document(shell with { Title = string.IsNullOrWhiteSpace(shell.Brand?.Name) ? title : $"{title} · {shell.Brand.Name}" }, config.Theme, body.Replace("<!--header-->", header, StringComparison.Ordinal));
     }
 
     private static string Text(string? value) =>
