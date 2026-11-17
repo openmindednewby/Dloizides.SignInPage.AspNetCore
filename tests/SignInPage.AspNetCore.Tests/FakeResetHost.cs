@@ -4,16 +4,24 @@ namespace SignInPage.AspNetCore.Tests;
 
 internal sealed class FakeResetHost : IPasswordResetHost
 {
-    public Dictionary<string, string> Users { get; } = new(StringComparer.OrdinalIgnoreCase);
+    public Dictionary<string, string> Users { get; } = [];
 
     public Dictionary<string, PasswordResetToken> Tokens { get; } = [];
 
     public List<Uri> SentLinks { get; } = [];
 
+    public List<string> SentTo { get; } = [];
+
     public Dictionary<string, string> Passwords { get; } = [];
 
-    public Task<string?> FindUserIdAsync(string email, CancellationToken cancellationToken) =>
-        Task.FromResult(Users.TryGetValue(email, out var id) ? id : null);
+    public int Lookups { get; private set; }
+
+    public Task<PasswordResetUser?> FindUserAsync(string email, CancellationToken cancellationToken)
+    {
+        Lookups++;
+        var stored = Users.Keys.FirstOrDefault(key => string.Equals(key, email.Trim(), StringComparison.OrdinalIgnoreCase));
+        return Task.FromResult(stored is null ? null : new PasswordResetUser(Users[stored], stored));
+    }
 
     public Task SaveResetTokenAsync(PasswordResetToken token, CancellationToken cancellationToken)
     {
@@ -24,9 +32,14 @@ internal sealed class FakeResetHost : IPasswordResetHost
     public Task<PasswordResetToken?> TakeResetTokenAsync(string tokenHash, CancellationToken cancellationToken) =>
         Task.FromResult(Tokens.Remove(tokenHash, out var token) ? token : null);
 
-    public Task SendResetLinkAsync(string userId, string email, Uri resetLink, CancellationToken cancellationToken)
+    public Task SendResetLinkAsync(PasswordResetUser user, Uri resetLink, CancellationToken cancellationToken)
     {
-        SentLinks.Add(resetLink);
+        lock (SentLinks)
+        {
+            SentLinks.Add(resetLink);
+            SentTo.Add(user.Email);
+        }
+
         return Task.CompletedTask;
     }
 
