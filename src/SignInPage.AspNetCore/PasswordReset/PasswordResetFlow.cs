@@ -11,19 +11,19 @@ public sealed class PasswordResetFlow
 
     private readonly PasswordResetPaths _paths;
 
-    public PasswordResetFlow(PasswordResetService service, SignInConfig config, SignInPageShell shell, PasswordResetPaths? paths = null)
+    public PasswordResetFlow(PasswordResetService service, SignInConfig config, SignInPageShell shell, PasswordResetPaths paths)
     {
         _service = service;
         _config = config;
         _shell = shell;
-        _paths = paths ?? new PasswordResetPaths();
+        _paths = paths;
     }
 
     public string GetForgot() => PasswordResetPages.Request(_shell, _config, _paths);
 
-    public async Task<string> PostForgotAsync(string? email, Uri resetPage, CancellationToken cancellationToken)
+    public string PostForgot(string? email)
     {
-        await _service.RequestAsync(email, resetPage, cancellationToken);
+        _service.Request(email);
         return PasswordResetPages.Sent(_shell, _config, _paths);
     }
 

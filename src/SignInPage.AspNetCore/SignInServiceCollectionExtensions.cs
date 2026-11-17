@@ -13,14 +13,17 @@ public static class SignInServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddSignInPasswordReset(this IServiceCollection services, SignInPageShell shell, PasswordResetPaths? paths = null)
+    public static IServiceCollection AddSignInPasswordReset(this IServiceCollection services, SignInPageShell shell, PasswordResetPaths paths)
     {
         ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(paths);
         services.TryAddSingleton(TimeProvider.System);
         services.TryAddSingleton(shell);
-        services.TryAddSingleton(paths ?? new PasswordResetPaths());
+        services.TryAddSingleton(paths);
+        services.TryAddSingleton<PasswordResetQueue>();
         services.TryAddScoped<PasswordResetService>();
         services.TryAddScoped<PasswordResetFlow>();
+        services.AddHostedService<PasswordResetWorker>();
         return services;
     }
 }

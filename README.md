@@ -35,9 +35,11 @@ return Content(html, "text/html; charset=utf-8");
 
 ```csharp
 builder.Services.AddSignInConfig("sign-in.json", new SignInConfigParseOptions(SessionMaxHours: 10));
-builder.Services.AddSignInPasswordReset(new SignInPageShell("Sign in", new SignInBrand("Acme")));
+builder.Services.AddSignInPasswordReset(new SignInPageShell("Sign in", new SignInBrand("Acme")), new PasswordResetPaths { PublicOrigin = new Uri("https://id.example.com") });
 builder.Services.AddScoped<IPasswordResetHost, MyResetHost>();
-app.MapSignInPasswordReset(new Uri("https://id.example.com"));
+app.MapSignInPasswordReset().RequireRateLimiting("password-reset");
 ```
 
 The file follows the @dloizides/sign-in-config schema (embedded as `SignInConfigSchema.Json`). On login POST call `SignInFieldValidator.Validate` and pass errors back as `SignInPageModel.FieldErrors`; build cookie properties with `RememberMe.Properties`.
+
+Reset links go only to the address `FindUserAsync` returns from your store and are built from `PublicOrigin`. Requests are queued and processed in the background, so the endpoint answers the same for every email. You must rate-limit the group (per IP and per email).
