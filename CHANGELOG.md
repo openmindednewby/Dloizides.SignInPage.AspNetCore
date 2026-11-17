@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.3
+- Embedded schema: idle `durationMs` is the logo-kit raster loop range, 6000-8000 ms (was max 600, below every idle loop).
+
 ## 3.0.2
 - Embedded @dloizides/sign-in-config 1.0.0 schema: motion names are exactly the logo-kit 0.6.0 raster presets (intro `fade-up` ... `tilt-sweep`, micro `pulse`/`glint`/`nudge`/`underline-draw`, idle `slow-glint` ... `twin-shimmer`); every configured name now renders. The old names (`stagger-rise`, `sweep`, `breath`, ...) fail config load.
 

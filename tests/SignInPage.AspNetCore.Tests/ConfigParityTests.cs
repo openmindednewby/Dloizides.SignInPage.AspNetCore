@@ -40,7 +40,7 @@ public sealed class ConfigParityTests
     [Fact]
     public void Schema_WhenEmbedded_IsByteForByteSignInConfigSchema100()
     {
-        const string signInConfig100SchemaSha256 = "8c2541174fc49530d8829321df5dc7dc355f2fb671f2f7b4ee1f474ab8bf2ed6";
+        const string signInConfig100SchemaSha256 = "22ca8cbaa60bd2f05d081cc33b7211dc6b12ce2965e610cd3bfd5b303fa82345";
 
         var actual = Convert.ToHexStringLower(SHA256.HashData(Encoding.UTF8.GetBytes(SignInConfigSchema.Json)));
 

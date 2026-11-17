@@ -17,9 +17,9 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Description>Brand-neutral server-rendered sign-in page for ASP.NET Core driven by one validated sign-in.json (@dloizides/sign-in-config schema): theme tokens with a 4.5:1 contrast check, field validation inline and on the server, remember-me capped by the session limit, forgot-password request and reset pages behind one host interface, logo-kit motion presets, demo accounts.</Description>
 
-    <Version>3.0.2</Version>
-    <AssemblyVersion>3.0.2.0</AssemblyVersion>
-    <FileVersion>3.0.2.0</FileVersion>
+    <Version>3.0.3</Version>
+    <AssemblyVersion>3.0.3.0</AssemblyVersion>
+    <FileVersion>3.0.3.0</FileVersion>
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
