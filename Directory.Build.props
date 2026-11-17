@@ -15,11 +15,11 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>sign-in;login;page;openiddict;aspnetcore;server-rendered;theme</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Description>Brand-neutral server-rendered sign-in page for ASP.NET Core: email + password form, optional demo-account list, logo slot with logo-kit motion, every colour from theme tokens passed in as data.</Description>
+    <Description>Brand-neutral server-rendered sign-in page for ASP.NET Core driven by one validated sign-in.json (@dloizides/sign-in-config schema): theme tokens with a 4.5:1 contrast check, field validation inline and on the server, remember-me capped by the session limit, forgot-password request and reset pages behind one host interface, logo-kit motion presets, demo accounts.</Description>
 
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
+    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>

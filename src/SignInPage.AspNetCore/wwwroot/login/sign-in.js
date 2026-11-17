@@ -1,4 +1,8 @@
 import { wireDemoRows } from './demo-rows.js';
+import { wireFieldValidation } from './field-validation.js';
+
+const form = document.querySelector('form.card');
+if (form !== null) wireFieldValidation(form, document);
 
 wireDemoRows(document);
 

@@ -1,7 +1,7 @@
 namespace SignInPage.AspNetCore;
 
-/// <summary>Every colour the page paints plus its font stack; each colour must be a plain CSS colour.</summary>
-public sealed record SignInTheme
+/// <summary>The theme colour tokens; text tokens must reach 4.5:1 against the surface they sit on.</summary>
+public sealed record SignInColors
 {
     public required string Brand { get; init; }
 
@@ -41,5 +41,5 @@ public sealed record SignInTheme
 
     public required string RowHover { get; init; }
 
-    public required string FontFamily { get; init; }
+    public required string Success { get; init; }
 }

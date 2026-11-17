@@ -30,3 +30,14 @@ return Content(html, "text/html; charset=utf-8");
 - No demo accounts, no demo block. Clicking a demo row fills both fields and submits.
 - Under `prefers-reduced-motion: reduce` the logo stays still and the form submits at once; otherwise the
   submit waits for the glint, at most 300 ms.
+
+## 2.0: one sign-in.json
+
+```csharp
+builder.Services.AddSignInConfig("sign-in.json", new SignInConfigParseOptions(SessionMaxHours: 10));
+builder.Services.AddSignInPasswordReset(new SignInPageShell("Sign in", new SignInBrand("Acme")));
+builder.Services.AddScoped<IPasswordResetHost, MyResetHost>();
+app.MapSignInPasswordReset(new Uri("https://id.example.com"));
+```
+
+The file follows the @dloizides/sign-in-config schema (embedded as `SignInConfigSchema.Json`). On login POST call `SignInFieldValidator.Validate` and pass errors back as `SignInPageModel.FieldErrors`; build cookie properties with `RememberMe.Properties`.

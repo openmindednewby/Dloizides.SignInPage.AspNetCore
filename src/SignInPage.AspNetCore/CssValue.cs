@@ -10,7 +10,11 @@ internal static partial class CssValue
 
     public static string Length(string value) => Checked(LengthPattern(), nameof(SignInLogo.Width), value, "a CSS length such as 200px");
 
-    public static string Url(string value) => Checked(UrlPattern(), nameof(SignInPageModel.FontCssUrl), value, "an https or root-relative URL without quotes, brackets or spaces");
+    public static string Url(string value) => Checked(UrlPattern(), nameof(SignInPageShell.FontCssUrl), value, "an https or root-relative URL without quotes, brackets or spaces");
+
+    public static string Link(string name, string value) => Checked(LinkPattern(), name, value, "an https or root-relative URL (one leading slash)");
+
+    public static bool IsSafeLink(string value) => LinkPattern().IsMatch(value);
 
     private static string Checked(Regex pattern, string token, string value, string expected) =>
         value is not null && pattern.IsMatch(value)
@@ -20,12 +24,15 @@ internal static partial class CssValue
     [GeneratedRegex(@"^(#[0-9a-fA-F]{3,8}|(rgb|rgba|hsl|hsla)\(\s*[0-9.,%\s/]+\)|[a-zA-Z]+)$")]
     private static partial Regex ColourPattern();
 
-    [GeneratedRegex(@"^[A-Za-z0-9 ,""'\-]+$")]
+    [GeneratedRegex(@"^[A-Za-z0-9 ,""'._\-]+$")]
     private static partial Regex FontFamilyPattern();
 
     [GeneratedRegex(@"^\d+(\.\d+)?(px|rem|em|%|vw)$")]
     private static partial Regex LengthPattern();
 
-    [GeneratedRegex(@"^(https://|/)[^\s""'()<>\\]+$")]
+    [GeneratedRegex(@"^(https://|/(?![/\\]))[^\s""'()<>\\]+$")]
     private static partial Regex UrlPattern();
+
+    [GeneratedRegex(@"^(https://|/(?![/\\]))[^\s""'<>\\]*$")]
+    private static partial Regex LinkPattern();
 }

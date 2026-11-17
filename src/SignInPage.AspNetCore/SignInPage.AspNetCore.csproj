@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <EmbeddedResource Include="schema/sign-in-config.schema.json" LogicalName="SignInPage.AspNetCore.sign-in-config.schema.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <InternalsVisibleTo Include="SignInPage.AspNetCore.Tests" />
   </ItemGroup>
 
