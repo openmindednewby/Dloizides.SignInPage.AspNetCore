@@ -10,9 +10,9 @@ public sealed class MotionConfigTests
         var motion = new SignInMotion
         {
             Enabled = true,
-            Intro = new SignInMotionStep("stagger-rise", 600),
-            Micro = new SignInMotionStep("sweep", 300),
-            Idle = new SignInIdleMotion("breath", null),
+            Intro = new SignInMotionStep("fade-up", 600),
+            Micro = new SignInMotionStep("glint", 300),
+            Idle = new SignInIdleMotion("glow-breathe", null),
         };
         var model = SignInPageSamples.Acme() with
         {
@@ -22,13 +22,13 @@ public sealed class MotionConfigTests
 
         var page = SignInPage.Render(model);
 
-        Assert.Contains("data-intro=\"stagger-rise\" data-intro-ms=\"600\" data-micro=\"sweep\" data-micro-ms=\"300\" data-idle=\"breath\"", page);
+        Assert.Contains("data-intro=\"fade-up\" data-intro-ms=\"600\" data-micro=\"glint\" data-micro-ms=\"300\" data-idle=\"glow-breathe\"", page);
     }
 
     [Fact]
     public void Render_WithMotionDisabled_EmitsTheStillLogoOnly()
     {
-        var motion = new SignInMotion { Enabled = false, Intro = new SignInMotionStep("stagger-rise", 600) };
+        var motion = new SignInMotion { Enabled = false, Intro = new SignInMotionStep("fade-up", 600) };
         var model = SignInPageSamples.Acme() with
         {
             Config = SignInPageSamples.Config() with { Motion = motion },

@@ -12,7 +12,7 @@ public sealed class BrandNeutralityTests
         {
             Copy = copy,
             Features = new SignInFeatures { DemoAccounts = new DemoAccountsFeature(true) },
-            Motion = new SignInMotion { Enabled = true, Intro = new SignInMotionStep("stagger-rise", 600) },
+            Motion = new SignInMotion { Enabled = true, Intro = new SignInMotionStep("fade-up", 600) },
         };
         var model = SignInPageSamples.Acme() with
         {
