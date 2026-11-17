@@ -1,0 +1,2 @@
+* text=auto eol=lf
+src/SignInPage.AspNetCore/wwwroot/login/vendor/** -text

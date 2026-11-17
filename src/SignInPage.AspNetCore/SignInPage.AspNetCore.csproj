@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
+    <RootNamespace>SignInPage.AspNetCore</RootNamespace>
+    <PackageId>Dloizides.SignInPage.AspNetCore</PackageId>
+    <StaticWebAssetBasePath>_content/Dloizides.SignInPage.AspNetCore</StaticWebAssetBasePath>
+    <AddRazorSupportForMvc>false</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SignInPage.AspNetCore.Tests" />
+  </ItemGroup>
+
+</Project>
