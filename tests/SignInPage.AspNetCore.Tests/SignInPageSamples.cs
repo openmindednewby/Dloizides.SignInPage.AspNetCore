@@ -4,7 +4,7 @@ namespace SignInPage.AspNetCore.Tests;
 
 internal static class SignInPageSamples
 {
-    public static SignInTheme Theme() => new()
+    public static SignInColors Colors() => new()
     {
         Brand = "#2563eb",
         BrandHover = "#1d4ed8",
@@ -25,21 +25,25 @@ internal static class SignInPageSamples
         ErrorText = "#991b1b",
         RowBackground = "#f9fafb",
         RowHover = "#f3f4f6",
-        FontFamily = "\"Inter\", sans-serif",
+        Success = "#166534",
     };
+
+    public static SignInTheme Theme() => new() { Colors = Colors(), FontFamily = "\"Inter\", sans-serif" };
 
     public static SignInCopy Copy() => new()
     {
         UsernameLabel = "Email",
         PasswordLabel = "Password",
         SubmitLabel = "Sign in",
+        RequiredMessage = "{field} is required",
+        TooShortMessage = "{field} needs at least {min} characters",
+        TooLongMessage = "{field} allows at most {max} characters",
         Footer = "Acme staff only.",
-        DemoToggle = "Show test accounts",
-        DemoHint = "Click a row to sign in.",
-        DemoAriaLabel = "Test accounts",
-        DemoRowAriaLabel = "Sign in as the {0} test account",
     };
 
-    public static SignInPageModel Acme() =>
-        new("Sign in · Acme", new SignInBrand("Acme", "Cloud", "Identity"), Theme(), Copy(), new SignInForm("/login"));
+    public static SignInConfig Config() => new() { Version = 1, Theme = Theme(), Copy = Copy() };
+
+    public static SignInPageShell Shell() => new("Sign in · Acme", new SignInBrand("Acme", "Cloud", "Identity"));
+
+    public static SignInPageModel Acme() => new(Shell(), Config(), new SignInForm("/login"));
 }

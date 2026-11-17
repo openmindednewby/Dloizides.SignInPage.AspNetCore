@@ -31,10 +31,8 @@ public sealed class EncodingTests
     [Fact]
     public void Render_WithScriptInLabels_EncodesThem()
     {
-        var model = SignInPageSamples.Acme() with
-        {
-            Copy = SignInPageSamples.Copy() with { UsernameLabel = Payload, SubmitLabel = Payload, Footer = Payload },
-        };
+        var copy = SignInPageSamples.Copy() with { UsernameLabel = Payload, SubmitLabel = Payload, Footer = Payload };
+        var model = SignInPageSamples.Acme() with { Config = SignInPageSamples.Config() with { Copy = copy } };
 
         var page = SignInPage.Render(model);
 
@@ -45,7 +43,9 @@ public sealed class EncodingTests
     [Fact]
     public void Render_WithScriptInDemoValues_EncodesThem()
     {
-        var model = SignInPageSamples.Acme() with { DemoAccounts = [new SignInDemoAccount(Payload, Payload, Payload)] };
+        var copy = SignInPageSamples.Copy() with { DemoToggle = "Demo", DemoHint = "Hint", DemoAriaLabel = "Demo", DemoRowAriaLabel = "Sign in as {label}" };
+        var config = SignInPageSamples.Config() with { Copy = copy, Features = new SignInFeatures { DemoAccounts = new DemoAccountsFeature(true) } };
+        var model = SignInPageSamples.Acme() with { Config = config, DemoAccounts = [new SignInDemoAccount(Payload, Payload, Payload)] };
 
         var page = SignInPage.Render(model);
 

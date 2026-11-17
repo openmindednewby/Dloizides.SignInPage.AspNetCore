@@ -8,19 +8,32 @@ public sealed class ThemeTests
     [Fact]
     public void Render_WithChangedBrandToken_EmitsTheNewColour()
     {
-        var model = SignInPageSamples.Acme() with { Theme = SignInPageSamples.Theme() with { Brand = "#123456" } };
+        var theme = SignInPageSamples.Theme() with { Colors = SignInPageSamples.Colors() with { Brand = "#123456" } };
 
-        var page = SignInPage.Render(model);
+        var page = SignInPage.Render(SignInPageSamples.Acme() with { Config = SignInPageSamples.Config() with { Theme = theme } });
 
         Assert.Contains("--brand:#123456;", page);
     }
 
     [Fact]
-    public void Render_WithDemoAccountsAndError_PaintsNoColourOutsideTheThemeVariables()
+    public void Render_WithSuccessToken_EmitsItAsAVariable()
     {
+        var theme = SignInPageSamples.Theme() with { Colors = SignInPageSamples.Colors() with { Success = "#1f7a3d" } };
+
+        var page = SignInPage.Render(SignInPageSamples.Acme() with { Config = SignInPageSamples.Config() with { Theme = theme } });
+
+        Assert.Contains("--success:#1f7a3d;", page);
+    }
+
+    [Fact]
+    public void Render_WithDemoAccountsAndErrors_PaintsNoColourOutsideTheThemeVariables()
+    {
+        var copy = SignInPageSamples.Copy() with { DemoToggle = "Demo", DemoHint = "Hint", DemoAriaLabel = "Demo", DemoRowAriaLabel = "Sign in as {label}" };
         var model = SignInPageSamples.Acme() with
         {
+            Config = SignInPageSamples.Config() with { Copy = copy, Features = new SignInFeatures { DemoAccounts = new DemoAccountsFeature(true) } },
             Form = new SignInForm("/login", "/back", "Wrong password"),
+            FieldErrors = new Dictionary<string, string> { ["username"] = "Email is required" },
             DemoAccounts = [new SignInDemoAccount("Admin", "admin@acme.test", "pw")],
         };
 
@@ -37,7 +50,8 @@ public sealed class ThemeTests
     [InlineData("red</style><script>alert(1)</script>")]
     public void Render_WithStyleBreakingToken_ThrowsArgumentException(string token)
     {
-        var model = SignInPageSamples.Acme() with { Theme = SignInPageSamples.Theme() with { Ink = token } };
+        var theme = SignInPageSamples.Theme() with { Colors = SignInPageSamples.Colors() with { Ink = token } };
+        var model = SignInPageSamples.Acme() with { Config = SignInPageSamples.Config() with { Theme = theme } };
 
         var render = () => SignInPage.Render(model);
 

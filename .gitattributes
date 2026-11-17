@@ -1,2 +1,4 @@
 * text=auto eol=lf
 src/SignInPage.AspNetCore/wwwroot/login/vendor/** -text
+src/SignInPage.AspNetCore/schema/** -text
+tests/fixtures/** -text

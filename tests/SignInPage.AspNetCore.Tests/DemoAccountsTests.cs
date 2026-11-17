@@ -7,7 +7,7 @@ public sealed class DemoAccountsTests
     [Fact]
     public void Render_WithoutDemoAccounts_HasNoDemoBlock()
     {
-        var model = SignInPageSamples.Acme() with { DemoAccounts = [] };
+        var model = DemoModel(SignInPageSamples.Copy() with { DemoToggle = "Show test accounts" }) with { DemoAccounts = [] };
 
         var page = SignInPage.Render(model);
 
@@ -18,7 +18,8 @@ public sealed class DemoAccountsTests
     [Fact]
     public void Render_WithDemoAccount_RendersARowCarryingBothCredentials()
     {
-        var model = SignInPageSamples.Acme() with { DemoAccounts = [new SignInDemoAccount("Analyst", "analyst@acme.test", "s3cret")] };
+        var copy = SignInPageSamples.Copy() with { DemoToggle = "Show test accounts", DemoRowAriaLabel = "Sign in as the {label} test account" };
+        var model = DemoModel(copy) with { DemoAccounts = [new SignInDemoAccount("Analyst", "analyst@acme.test", "s3cret")] };
 
         var page = SignInPage.Render(model);
 
@@ -28,9 +29,19 @@ public sealed class DemoAccountsTests
     }
 
     [Fact]
+    public void Render_WithDemoFeatureOff_HasNoDemoBlock()
+    {
+        var model = SignInPageSamples.Acme() with { DemoAccounts = [new SignInDemoAccount("Analyst", "analyst@acme.test", "s3cret")] };
+
+        var page = SignInPage.Render(model);
+
+        Assert.DoesNotContain("demo-card", page);
+    }
+
+    [Fact]
     public void Render_WithBlankDemoLabel_ShowsTheUsername()
     {
-        var model = SignInPageSamples.Acme() with { DemoAccounts = [new SignInDemoAccount(" ", "ops@acme.test", "pw")] };
+        var model = DemoModel(SignInPageSamples.Copy() with { DemoToggle = "Show test accounts" }) with { DemoAccounts = [new SignInDemoAccount(" ", "ops@acme.test", "pw")] };
 
         var page = SignInPage.Render(model);
 
@@ -40,7 +51,7 @@ public sealed class DemoAccountsTests
     [Fact]
     public void Render_WithDemoAccounts_GivesTheToggleA44PixelMinimumHeight()
     {
-        var model = SignInPageSamples.Acme() with { DemoAccounts = [new SignInDemoAccount("Admin", "admin@acme.test", "pw")] };
+        var model = DemoModel(SignInPageSamples.Copy() with { DemoToggle = "Show test accounts" }) with { DemoAccounts = [new SignInDemoAccount("Admin", "admin@acme.test", "pw")] };
 
         var page = SignInPage.Render(model);
 
@@ -57,4 +68,13 @@ public sealed class DemoAccountsTests
         Assert.Contains("export function wireDemoRows(", script);
         Assert.Contains("requestSubmit", script);
     }
+
+    private static SignInPageModel DemoModel(SignInCopy copy) => SignInPageSamples.Acme() with
+    {
+        Config = SignInPageSamples.Config() with
+        {
+            Features = new SignInFeatures { DemoAccounts = new DemoAccountsFeature(true) },
+            Copy = copy with { DemoHint = copy.DemoHint ?? "Click a row to sign in.", DemoAriaLabel = copy.DemoAriaLabel ?? "Test accounts", DemoRowAriaLabel = copy.DemoRowAriaLabel ?? "Sign in as {label}" },
+        },
+    };
 }

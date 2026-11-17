@@ -7,11 +7,18 @@ public sealed class BrandNeutralityTests
     [Fact]
     public void Render_WithAcmeBrand_ContainsOnlyTheGivenBrandText()
     {
+        var copy = SignInPageSamples.Copy() with { DemoToggle = "Demo", DemoHint = "Hint", DemoAriaLabel = "Demo", DemoRowAriaLabel = "Sign in as {label}" };
+        var config = SignInPageSamples.Config() with
+        {
+            Copy = copy,
+            Features = new SignInFeatures { DemoAccounts = new DemoAccountsFeature(true) },
+            Motion = new SignInMotion { Enabled = true, Intro = new SignInMotionStep("stagger-rise", 600) },
+        };
         var model = SignInPageSamples.Acme() with
         {
+            Config = config,
+            Shell = SignInPageSamples.Shell() with { Logo = new SignInLogo("/acme.webp", "Acme", "200px") },
             DemoAccounts = [new SignInDemoAccount("Admin", "admin@acme.test", "pw")],
-            Logo = new SignInLogo("/acme.webp", "Acme", "200px"),
-            Motion = new SignInMotion("glow-sweep", "glint", "slow-glint"),
         };
 
         var page = SignInPage.Render(model);
