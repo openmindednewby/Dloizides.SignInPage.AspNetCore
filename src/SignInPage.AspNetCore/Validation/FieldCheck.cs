@@ -5,6 +5,8 @@ namespace SignInPage.AspNetCore;
 
 internal static partial class FieldCheck
 {
+    public const string DefaultEmailInvalidMessage = "{field} is not a valid email address";
+
     private static readonly TimeSpan PatternTimeout = TimeSpan.FromMilliseconds(250);
 
     public static string? Message(SignInFieldRule? rule, SignInCopy copy, string label, string? value)
@@ -27,8 +29,11 @@ internal static partial class FieldCheck
 
     public static bool IsEmail(SignInFieldRule rule) => rule.Kind == "email";
 
+    public static SignInFieldRule UsernameRule(SignInFieldRule? rule) =>
+        rule is { Kind: not null } ? rule : (rule ?? new SignInFieldRule()) with { Kind = "email" };
+
     public static string EmailMessage(SignInCopy copy, string label, SignInFieldRule rule) =>
-        Format(copy.EmailInvalidMessage ?? copy.RequiredMessage, label, rule);
+        Format(copy.EmailInvalidMessage ?? DefaultEmailInvalidMessage, label, rule);
 
     public static string PatternMessage(SignInCopy copy, string label, SignInFieldRule rule) =>
         Format(rule.PatternMessage ?? copy.RequiredMessage, label, rule);

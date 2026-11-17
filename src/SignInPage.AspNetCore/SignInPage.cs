@@ -8,8 +8,9 @@ public static class SignInPage
         ArgumentNullException.ThrowIfNull(model);
         var config = model.Config;
         var copy = config.Copy;
-        var username = new FieldSpec("email", SignInFieldValidator.UsernameField, config.Validation.Username?.Kind == "text" ? "text" : "email",
-            "username", copy.UsernameLabel, config.Validation.Username, Autofocus: true);
+        var usernameRule = FieldCheck.UsernameRule(config.Validation.Username);
+        var username = new FieldSpec("email", SignInFieldValidator.UsernameField, FieldCheck.IsEmail(usernameRule) ? "email" : "text",
+            "username", copy.UsernameLabel, usernameRule, Autofocus: true);
         var password = new FieldSpec("password", SignInFieldValidator.PasswordField, "password", "current-password", copy.PasswordLabel, config.Validation.Password);
         var body = $"""
               <form class="card" method="post" action="{Markup.Html(CssValue.Link(nameof(SignInForm.Action), model.Form.Action))}" novalidate>

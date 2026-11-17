@@ -54,3 +54,19 @@ test('wireFieldValidation with an invalid field, blocks the submit and shows the
   assert.equal(error.textContent, 'Password is required');
   assert.equal(input.attributes['aria-invalid'], 'true');
 });
+
+test('fieldMessage with a bad value in an email-type input without data-kind, returns the email message', () => {
+  const input = { ...fakeInput('not-an-email', { field: 'username', msgEmail: 'Enter a valid email address' }), type: 'email' };
+
+  const message = fieldMessage(input);
+
+  assert.equal(message, 'Enter a valid email address');
+});
+
+test('fieldMessage with an empty and a bad email, returns the required and the format message separately', () => {
+  const dataset = { field: 'username', kind: 'email', required: 'true', msgRequired: 'Email is required', msgEmail: 'Enter a valid email address' };
+
+  const messages = [fieldMessage(fakeInput('', dataset)), fieldMessage(fakeInput('bad', dataset))];
+
+  assert.deepEqual(messages, ['Email is required', 'Enter a valid email address']);
+});

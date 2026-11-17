@@ -11,7 +11,7 @@ public static class SignInFieldValidator
     {
         ArgumentNullException.ThrowIfNull(config);
         var errors = new Dictionary<string, string>(StringComparer.Ordinal);
-        if (FieldCheck.Message(config.Validation.Username, config.Copy, config.Copy.UsernameLabel, username) is { } usernameError)
+        if (FieldCheck.Message(FieldCheck.UsernameRule(config.Validation.Username), config.Copy, config.Copy.UsernameLabel, username) is { } usernameError)
             errors[UsernameField] = usernameError;
         if (ValidatePassword(config, password) is { } passwordError)
             errors[PasswordField] = passwordError;

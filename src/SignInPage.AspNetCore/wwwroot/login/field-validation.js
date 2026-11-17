@@ -12,7 +12,7 @@ export function fieldMessage(input) {
   const rule = input.dataset;
   const value = input.value ?? '';
   if (value === '') return rule.required === 'true' ? rule.msgRequired : '';
-  if (rule.kind === 'email' && !EMAIL.test(value)) return rule.msgEmail;
+  if ((rule.kind === 'email' || input.type === 'email') && !EMAIL.test(value)) return rule.msgEmail;
   const length = [...value].length;
   if (rule.min !== undefined && length < Number(rule.min)) return rule.msgMin;
   if (rule.max !== undefined && length > Number(rule.max)) return rule.msgMax;

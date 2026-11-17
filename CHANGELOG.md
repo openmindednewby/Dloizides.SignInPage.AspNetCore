@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.4
+- Sign-in: a username with no `kind` is checked as an email (it already rendered `type="email"`), so a bad address shows the format message on blur and submit, inline and server side.
+- Email format message is `copy.emailInvalidMessage`, else `{field} is not a valid email address`; it never reuses `requiredMessage`. The forgot-password email is always required, so empty and bad input get separate messages.
+- Page links (`.links a`) have a 44x44 minimum hit box.
+
 ## 3.0.3
 - Embedded schema: idle `durationMs` is the logo-kit raster loop range, 6000-8000 ms (was max 600, below every idle loop).
 

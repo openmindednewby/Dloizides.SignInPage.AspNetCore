@@ -52,7 +52,7 @@ public sealed class FieldValidationTests
         var config = SignInPageSamples.Config() with
         {
             Copy = SignInPageSamples.Copy() with { UsernameLabel = "Email", TooLongMessage = "{field} allows at most {max} characters" },
-            Validation = new SignInValidation { Username = new SignInFieldRule { MaxLength = 5 } },
+            Validation = new SignInValidation { Username = new SignInFieldRule { Kind = "text", MaxLength = 5 } },
         };
 
         var errors = SignInFieldValidator.Validate(config, "toolongname", "pw");

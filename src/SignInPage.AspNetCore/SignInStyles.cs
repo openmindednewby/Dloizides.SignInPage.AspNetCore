@@ -33,7 +33,7 @@ internal static class SignInStyles
           background:var(--brand); color:var(--brand-ink); font:inherit; font-weight:600; cursor:pointer; }
         button:hover { background:var(--brand-hover); }
         .links { display:flex; justify-content:space-between; gap:12px; margin-top:8px; font-size:.8rem; }
-        .links a { color:var(--brand-on-light); min-height:44px; display:inline-flex; align-items:center; }
+        .links a { color:var(--brand-on-light); min-height:44px; min-width:44px; display:inline-flex; align-items:center; }
         .login-logo { display:flex; justify-content:center; margin-bottom:14px; }
         .brand-name { font-weight:700; font-size:1.05rem; color:var(--ink); }
         .brand-name b { color:var(--brand-on-light); font-weight:700; }

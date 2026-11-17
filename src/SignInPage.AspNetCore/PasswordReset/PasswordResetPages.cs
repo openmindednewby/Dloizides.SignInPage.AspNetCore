@@ -5,7 +5,7 @@ internal static class PasswordResetPages
     public static string Request(SignInPageShell shell, SignInConfig config, PasswordResetPaths paths)
     {
         var copy = config.Copy;
-        var rule = (config.Validation.Username ?? new SignInFieldRule()) with { Kind = "email", Pattern = null, PatternMessage = null };
+        var rule = (config.Validation.Username ?? new SignInFieldRule()) with { Kind = "email", Required = true, Pattern = null, PatternMessage = null };
         var email = new FieldSpec("email", SignInFieldValidator.UsernameField, "email", "email", copy.UsernameLabel, rule, Autofocus: true);
         return Card(shell, config, Text(copy.ForgotPasswordTitle), $"""
             <form class="card" method="post" action="{Markup.Html(CssValue.Link(nameof(paths.Forgot), paths.Forgot))}" novalidate>
